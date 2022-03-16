@@ -41,8 +41,8 @@ def run(nome,path_in,path_out,path_proj):
 
 
     screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption(nome)
-    icon = pygame.image.load(str(Path.home()) + '/Z01-Tools/VHDL-gui/icon-elementos.png')
+    #pygame.display.set_caption(nome)
+    #icon = pygame.image.load(str(Path.home()) + '/Z01-Tools/VHDL-gui/icon-elementos.png')
     pygame.display.set_icon(icon)
     screen.fill(background_colour)
 
@@ -52,7 +52,7 @@ def run(nome,path_in,path_out,path_proj):
 
     #pygame.draw.circle(screen, blue, (10,10), 5)
 
-    textsurface = font.render(nome, True, (0, 0, 0))
+    textsurface = font.render(nome,True, (0, 0, 0))
     text_rect = textsurface.get_rect()
     text_rect.center = (int(width/2),int(height/2))
     screen.blit(textsurface, text_rect )
