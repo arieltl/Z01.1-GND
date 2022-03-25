@@ -15,3 +15,8 @@ $ ./updateZ01tools.sh
 $ # instale as dependencias python
 $ pip install -r requirements.txt --user
 ```
+
+
+## Link do vídeo Conceito B
+
+https://youtu.be/ah5M9Clcigw
