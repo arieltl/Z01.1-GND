@@ -37,7 +37,7 @@ architecture rtl of TopLevel is
 			nx:    in STD_LOGIC;                     -- inverte a entrada x
 			zy:    in STD_LOGIC;                     -- zera a entrada y
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
-			f:     in STD_LOGIC;                     -- se 0 calcula x & y, senão x + y
+			f:     in STD_LOGIC_VECTOR(1 downto 0);                     -- se 0 calcula x & y, senão x + y
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
 			ng:    out STD_LOGIC;                    -- setado se saída é negativa
@@ -49,7 +49,7 @@ end component;
 -- implementacao
 ---------------
 
-signal saida: std_logic_vector(15 downto 0);
+signal saida : std_logic_vector(15 downto 0);
 
 begin
 	ula : ALU
@@ -61,11 +61,11 @@ begin
 			nx => sw(1),
 			zy => sw(2),
 			ny => sw(3),
-			f => sw(4),
-			no => sw(5),
-			zr => LEDR(0),
+			f => sw(5 downto 4),
+			no => sw(6),
+			zr => LEDR(0),	
 			ng => LEDR(1),
-			saida => saida
+			saida(3 downto 0) => LEDR(9 downto 6)
 	);
 	
 end rtl;

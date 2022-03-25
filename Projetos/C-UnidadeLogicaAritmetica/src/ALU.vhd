@@ -33,7 +33,7 @@ entity ALU is
 			nx:    in STD_LOGIC;                     -- inverte a entrada x
 			zy:    in STD_LOGIC;                     -- zera a entrada y
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
-			f:     in STD_LOGIC;                     -- se 0 calcula x & y, senão x + y
+			f:     in STD_LOGIC_VECTOR(1 downto 0);                     -- se 0 calcula x & y, senão x + y
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
 			ng:    out STD_LOGIC;                    -- setado se saída é negativa
@@ -84,16 +84,18 @@ architecture  rtl OF alu is
     );
 	end component;
 
-	component Mux16 is
+	component Mux4Way16 is
 		port (
 			a:   in  STD_LOGIC_VECTOR(15 downto 0);
 			b:   in  STD_LOGIC_VECTOR(15 downto 0);
-			sel: in  STD_LOGIC;
+			c:	 in  STD_LOGIC_VECTOR(15 downto 0);
+			d:	 in  STD_LOGIC_VECTOR(15 downto 0);
+			sel: in  STD_LOGIC_VECTOR(1 downto 0);
 			q:   out STD_LOGIC_VECTOR(15 downto 0)
 		);
 	end component;
 
-   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,muxout,precomp: std_logic_vector(15 downto 0);
+   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,muxout,orout,notorout,precomp: std_logic_vector(15 downto 0);
 
 begin
   -- Implementação vem aqui!
@@ -126,6 +128,10 @@ begin
 	);
 
 	andout <= nxout and nyout;
+
+	orout <= nxout or nyout;
+	
+	notorout <= not(nxout) or not(nyout);	
 	
 	Adder : Add16 
 	port map(
@@ -134,10 +140,12 @@ begin
 		q => adderout
 	);
 
-	Mux : Mux16
+	Mux : Mux4Way16
 	port map (
 		a => andout,
 		b => adderout,
+		c => orout and notorout,
+		d => "0000000000000000",
 		sel => f,
 		q => muxout
 	);
