@@ -27,5 +27,7 @@ architecture arch of Register16 is
 
 begin
 
+b0 : Register8 port map(clock,input(15 downto 8),load,output(15 downto 8));
+b1 : Register8 port map(clock,input(7 downto 0), load, output(7 downto 0));
 
 end architecture;
