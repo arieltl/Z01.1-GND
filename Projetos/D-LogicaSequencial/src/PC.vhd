@@ -43,8 +43,33 @@ architecture arch of PC is
           output: out STD_LOGIC_VECTOR(15 downto 0)
         );
     end component;
+    signal regIn, regOut,IncOut: STD_LOGIC_VECTOR(15 downto 0);
+    signal regLoad: STD_LOGIC;
 
 begin
+    reg: Register16
+    port map(clock,regIn,load,regOut);
+    inc: Inc16
+    port map(regOut,IncOut);
 
+
+    process (clock) begin
+        regLoad <= '0';
+        if (rising_edge(clock)) then
+            if (reset) then
+                regIn <= "0000000000000000";
+                regLoad <= '1';
+            elsif (load) then
+                regIn <= input;
+                regLoad <= '1';
+            elsif (load) then
+                regIn <= IncOut;
+                regLoad <='1';
+            end if;
+        end if;
+    end process;
+
+
+    
 
 end architecture;
