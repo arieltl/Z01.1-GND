@@ -58,6 +58,17 @@ architecture arch of Ram8 is
 	signal output0, output1, output2, output3, output4, output5, output6, output7 : STD_LOGIC_VECTOR(15 downto 0);
 
 begin
+	dmux: DMux8Way port map (load, address, load0, load1, load2, load3, load4, load5, load6, load7);
 
+	R0: Register16 port map (clock, input, load0, output0);
+	R1: Register16 port map (clock, input, load1, output1);
+	R2: Register16 port map (clock, input, load2, output2);
+	R3: Register16 port map (clock, input, load3, output3);
+	R4: Register16 port map (clock, input, load4, output4);
+	R5: Register16 port map (clock, input, load5, output5);
+	R6: Register16 port map (clock, input, load6, output6);
+	R7: Register16 port map (clock, input, load7, output7);
+	
+	mux: Mux8Way16 port map (output0, output1, output2, output3, output4, output5, output6, output7, address, output);
 
 end architecture;
