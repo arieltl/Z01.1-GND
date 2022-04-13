@@ -48,29 +48,15 @@ architecture arch of PC is
 
 begin
     reg: Register16
-    port map(clock,regIn,load,regOut);
+    port map(clock,regIn,regLoad,regOut);
     inc: Inc16
     port map(regOut,IncOut);
+    regIn <= "0000000000000000" when reset = '1' else
+        input when load = '1' else
+        incOut;
+    regLoad <= '1' when (reset or load or increment) = '1' else '0';
     output <= regOut;
-
-    process (clock) begin
-        if (rising_edge(clock)) then
-
-            if (reset) then
-                regIn <= "0000000000000000";
-                regLoad <= '1';
-            elsif (load) then
-                regIn <= input;
-                regLoad <= '1';
-            elsif (increment) then
-                regIn <= IncOut;
-                regLoad <='1';
-            elsif ('1') then
-                regLoad <= '0';
-            end if;
-        end if;
-    end process;
-
+    
 
     
 
