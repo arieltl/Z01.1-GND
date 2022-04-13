@@ -51,20 +51,22 @@ begin
     port map(clock,regIn,load,regOut);
     inc: Inc16
     port map(regOut,IncOut);
-
+    output <= regOut;
 
     process (clock) begin
-        regLoad <= '0';
         if (rising_edge(clock)) then
+
             if (reset) then
                 regIn <= "0000000000000000";
                 regLoad <= '1';
             elsif (load) then
                 regIn <= input;
                 regLoad <= '1';
-            elsif (load) then
+            elsif (increment) then
                 regIn <= IncOut;
                 regLoad <='1';
+            elsif ('1') then
+                regLoad <= '0';
             end if;
         end if;
     end process;
