@@ -19,9 +19,13 @@ use work.all;
 ----------------------------
 entity TopLevel is
 	port(
+		clock     : in  STD_LOGIC;
 		SW      : in  std_logic_vector(9 downto 0);
 		KEY     : in  std_logic_vector(3 downto 0);
-		LEDR    : out std_logic_vector(9 downto 0)
+		LEDR    : out std_logic_vector(9 downto 0);
+		HEX0 :  out std_logic_vector(6 downto 0);
+		HEX2 :  out std_logic_vector(6 downto 0)
+
 	);
 end entity;
 
@@ -31,39 +35,55 @@ end entity;
 architecture rtl of TopLevel is
 
 
-component FlipFlopD is
+component PC is
+    port(
+        clock     : in  STD_LOGIC;
+        increment : in  STD_LOGIC;
+        load      : in  STD_LOGIC;
+        reset     : in  STD_LOGIC;
+        input     : in  STD_LOGIC_VECTOR(15 downto 0);
+        output    : out STD_LOGIC_VECTOR(15 downto 0)
+    );
+end component;
+
+component Ram8 is
 	port(
-		clock:  in std_logic;
-		d:      in std_logic;
-		clear:  in std_logic;
-		preset: in std_logic;
-		q:     out std_logic
+		clock:   in  STD_LOGIC;
+		input:   in  STD_LOGIC_VECTOR(15 downto 0);
+		load:    in  STD_LOGIC;
+		address: in  STD_LOGIC_VECTOR( 2 downto 0);
+		output:  out STD_LOGIC_VECTOR(15 downto 0)
 	);
+end component;
+
+component sevenSeg is
+	port (
+			bcd : in  STD_LOGIC_VECTOR(3 downto 0);
+			leds: out STD_LOGIC_VECTOR(6 downto 0));
 end component;
 
 --------------
 -- signals
 --------------
 
-signal clock, clear, set : std_logic;
+signal num,pcOut,ramOut: STD_LOGIC_VECTOR(15 downto 0);
+signal incrementPc,loadPc,resetPc, loadRam: STD_LOGIC := '0';
 
----------------
+--------------
 -- implementacao
 ---------------
 begin
+	PC0: PC port map (KEY(3),incrementPc,loadPc,resetPc,"000000000000"&SW(3 downto 0),pcOut);
+	RAM0: Ram8 port map(KEY(3),"000000000000"&SW(3 downto 0),loadRam,pcOut(2 downto 0),ramOut);
+	SV0: sevenSeg port map (ramOut(3 downto 0),HEX0);
+	SV1: sevenSeg port map ('0'&pcOut(2 downto 0),HEX2);
+	
+	loadPc <= SW(8) when sw(9) = '0' else '0';
+	incrementPc <= SW(7) when sw(9) = '0' else '0';
+	resetPc <= SW(6) when sw(9) = '0' else '0';
 
-Clock <= not KEY(0); -- os botoes quando nao apertado vale 1
-                     -- e apertado 0, essa logica inverte isso
-clear <= not KEY(1);
-set	<= not KEY(2);
+	loadRam <= SW(8) when sw(9) = '1' else '0';
 
-u0 : FlipFlopD port map (
-		clock    => Clock,
-		d        => SW(0),
-		clear    => clear,
-		preset   => set,
-		q        => LEDR(0)
-	);		
- 
+
 
 end rtl;
