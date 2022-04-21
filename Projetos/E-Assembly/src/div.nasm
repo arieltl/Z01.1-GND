@@ -8,9 +8,24 @@
 ; divisao para numeros inteiros positivos
 
 
+LOOP:
+leaw $R1, %A
+movw (%A), %D ;Salva R1 em D
+leaw $R0, %A 
+rsubw %D, (%A), %D ;Subtrai R1 de R0
+movw %D, (%A) ; Salva novo valor de R0
+leaw $END, %A
 
+jl %D ; Pula para o fim se R0 for menor que 0
+nop
 
-
+leaw $R2, %A
+addw (%A), $1, %D 
+movw %D, (%A)     ; incrementa R2
+leaw $LOOP, %A 
+jmp              ; Repete
+nop
+END:
 
 
 
