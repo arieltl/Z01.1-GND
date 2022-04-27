@@ -26,4 +26,27 @@
 ;  RAM[14] = `?`
 ;  RAM[15] = NULL = 0x0000
 
-
+leaw $R7, %A
+movw %A, (%A)
+LOOP:
+leaw $R7, %A
+movw (%A), %D
+incw %D
+movw %D, (%A)
+movw %D, %A
+movw (%A), %D
+leaw $ZERO, %A
+je %D
+nop
+leaw $R0, %A
+movw (%A), %D
+incw %D
+movw %D, (%A)
+leaw $LOOP, %A
+jmp
+nop
+ZERO:
+leaw $R0, %A
+movw (%A), %D
+incw %D
+movw %D, (%A)
