@@ -10,3 +10,21 @@
 ; 4  % 3 = 1
 ; 10 % 7 = 3
 ; ------------------------------------------------------------
+
+LOOP:
+leaw $R0, %A
+movw (%A), %D
+leaw $R2, %A
+movw %D, (%A)
+leaw $R1, %A
+movw (%A), %A
+subw %D, %A, %D
+leaw $NEG, %A
+jl %D
+nop
+leaw $R0, %A
+movw %D, (%A)
+leaw $LOOP, %A
+jmp
+nop
+NEG:
