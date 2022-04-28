@@ -53,24 +53,33 @@ movw %D, (%A)
 leaw $LOOP, %A
 jg %D
 nop
+leaw $R1, %A
+movw (%A), %D
+leaw $R4, %A
+movw %D, (%A) 
 
 DIV:
 
-leaw $R1, %A
-movw (%A), %D ;Salva R1 em D
-leaw $R2, %A 
-rsubw %D, (%A), %D ;Subtrai R1 de R0
-movw %D, (%A) ; Salva novo valor de R0
+leaw $R2, %A
+movw (%A), %D
+leaw $R1, %A 
+subw (%A), %D, %D 
+movw %D, (%A) 
 leaw $END, %A
 
-jl %D ; Pula para o fim se R0 for menor que 0
+jl %D 
 nop
 
 leaw $R0, %A
 addw (%A), $1, %D 
-movw %D, (%A)     ; incrementa R2
+movw %D, (%A)    
 leaw $DIV, %A 
-jmp              ; Repete
+jmp             
 nop
 
 END:
+leaw $R4, %A
+movw (%A), %D
+leaw $R1, %a
+movw %D, (%A)
+
