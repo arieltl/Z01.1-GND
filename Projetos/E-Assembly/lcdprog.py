@@ -1,4 +1,3 @@
-from turtle import right
 import pygame
 import numpy as np
 
@@ -17,7 +16,9 @@ grid_unit = HEIGHT / G_HEIGHT
 square_size = int(0.9 * grid_unit)
 inserting = True
 
-
+v_mode = False
+h_mode = False
+x_fixed,y_fixed = 0,0
 clock = pygame.time.Clock()
 timer = 0
 last_change_coord = None
@@ -62,11 +63,19 @@ while game:
 		elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
 			x, y = get_indexes(event.pos)
 			size = 3 if inserting else 3
+			if v_mode:
+				x_fixed = x
+			elif h_mode:
+				y_fixed = y
 			left,right = max(x-size,0),min(x+size+1,G_WIDTH)
 			top, bottom = max(y-size,0), min(y+size+1,G_HEIGHT)
 			grid[top:bottom,left:right] = int(inserting)
 		elif event.type == pygame.MOUSEMOTION and pygame.mouse.get_pressed()[0]:
 			x, y = get_indexes(event.pos)
+			if v_mode:
+				x = x_fixed
+			elif h_mode:
+				y = y_fixed
 			if last_change_coord != (x, y):
 				size = 3 if inserting else 3
 				left,right = max(x-size,0),min(x+size+1,G_WIDTH)
@@ -84,7 +93,16 @@ while game:
 				grid = saved_grid.copy()
 			elif event.key == pygame.K_i:
 				inserting = not inserting
-	
+			elif event.key == pygame.K_v:
+				v_mode = True
+			elif event.key == pygame.K_h:
+				h_mode = True
+		elif event.type == pygame.KEYUP:
+			if event.key == pygame.K_v:
+				v_mode = False
+			elif event.key == pygame.K_h:
+				h_mode = False
+				
 	pygame.display.update()
 
 pygame.quit()
