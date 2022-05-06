@@ -135,9 +135,9 @@ BEGIN
     ----------------------------------------
     -- Controla LOAD do display e da ram e LED ! --
     ----------------------------------------
-    --LOAD_DISPLAY <= ??????; 
-    --LOAD_RAM     <= ??????; 
-    --LOAD_LED     <= ??????; 
+    LOAD_DISPLAY <= LOAD when ADDRESS <= "101001010111111" and ADDRESS >= "100000000000000" else '0';
+    LOAD_RAM     <= LOAD when ADDRESS <= "011111111111111" else '0'; 
+    LOAD_LED     <= LOAD when ADDRESS <= "101001011000001" else '0';
 
     ----------------------------------------
     -- SW e LED                           --
@@ -149,11 +149,11 @@ BEGIN
     SW16(15 downto 10) <= (others => '0');
     SW16( 9 DOWNTO  0) <= SW;
 
-    ----------------------------------------
+    ----------------------------------------  
     -- SAIDA do memory I/O                --
     ----------------------------------------
     -- precisar ser: RAM ou SW16
     -- OUTPUT <= ?????? ;
-
+    OUTPUT <= SW16 when (ADDRESS = "101001011000001") else OUTPUT_RAM;
 
 END logic;
