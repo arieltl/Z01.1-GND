@@ -32,7 +32,7 @@ begin
 
     loadD <= instruction(17) and instruction(4);
     loadM <= instruction(17) and instruction(5);
-    loadA <= (not instruction(17));
+    loadA <= (not instruction(17)) or instruction(3);
     muxALUI_A <= not instruction(17);
     muxAM <= instruction(13);
     zx <= instruction(17) and instruction(12);

@@ -33,10 +33,15 @@ architecture rtl of ConceitoA is
 			bcd : in  STD_LOGIC_VECTOR(3 downto 0);
 			leds: out STD_LOGIC_VECTOR(6 downto 0));
 		end component;
+	
+	signal num : std_logic_vector(3 downto 0);
 ---------------
 -- implementacao
 ---------------
 begin
+
+num <= "00" & SW(9 downto 8);
+
   s_1 : sevenSeg port map(
 	  bcd => SW(3 downto 0),
 	  leds => HEX0
@@ -46,7 +51,7 @@ begin
 	leds => HEX1
 );
 s_3 : sevenSeg port map(
-	bcd => "00" & SW(9 downto 8),
+	bcd => num,
 	leds => HEX2
 );
 

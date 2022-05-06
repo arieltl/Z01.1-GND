@@ -11,6 +11,6 @@ architecture arch of impressora is
 
 begin
 
-    x <= '1' when (not(SW1 or SW2) or not(SW1 or SW3) or not(SW3 or SW4) or not(SW2 or SW3) or not(SW2 or SW4)) else '0';
+    x <= (not(SW1 or SW2) or not(SW1 or SW3) or not(SW3 or SW4) or not(SW2 or SW3) or not(SW2 or SW4));
 
 end architecture;
