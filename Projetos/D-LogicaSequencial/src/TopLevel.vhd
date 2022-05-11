@@ -68,15 +68,19 @@ end component;
 
 signal num,pcOut,ramOut: STD_LOGIC_VECTOR(15 downto 0);
 signal incrementPc,loadPc,resetPc, loadRam: STD_LOGIC := '0';
+signal num1 : std_logic_vector(15 downto 0);
+signal num2 : std_logic_vector(3 downto 0);
 
 --------------
 -- implementacao
 ---------------
 begin
-	PC0: PC port map (KEY(3),incrementPc,loadPc,resetPc,"000000000000"&SW(3 downto 0),pcOut);
-	RAM0: Ram8 port map(KEY(3),"000000000000"&SW(3 downto 0),loadRam,pcOut(2 downto 0),ramOut);
+	num1 <= "000000000000"&SW(3 downto 0);
+	num2 <= '0'&pcOut(2 downto 0);
+	PC0: PC port map (KEY(3),incrementPc,loadPc,resetPc,num1,pcOut);
+	RAM0: Ram8 port map(KEY(3),num1,loadRam,pcOut(2 downto 0),ramOut);
 	SV0: sevenSeg port map (ramOut(3 downto 0),HEX0);
-	SV1: sevenSeg port map ('0'&pcOut(2 downto 0),HEX2);
+	SV1: sevenSeg port map (num2,HEX2);
 	
 	loadPc <= SW(8) when sw(9) = '0' else '0';
 	incrementPc <= SW(7) when sw(9) = '0' else '0';
