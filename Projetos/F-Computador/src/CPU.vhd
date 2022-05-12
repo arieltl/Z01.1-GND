@@ -122,11 +122,10 @@ alumap : ALU port map (s_muxX_out, s_muxAM_out, c_zx, c_nx, c_zy, c_ny, c_f, c_n
 
 mux_am : Mux4Way16 port map (s_regAout, inM,s_regSout,s_regSout, c_muxAM, s_muxAM_out);
 mux_alu : Mux16 port map(s_ALUout, instruction(15 downto 0) ,c_muxALUI_A ,s_muxALUI_Aout);
-mux_x : Mux16 port map (s_regDout, s_regSout, c_muxX, s_muxX_out);
-
+-
 reg_a : Register16 port map(clock, s_muxALUI_Aout, c_loadA,s_regAout);
-reg_d : Register16 port map(clock, s_ALUout, c_loadD, s_regDout);
-reg_s: Register16 port map(clock, s_ALUout, c_loadS,s_regSout);
+reg_d : Register16 port map(clock, s_muxALUI_Aout, c_loadD, s_regDout);
+reg_s: Register16 port map(clock, s_muxALUI_Aout, c_loadS,s_regSout);
 
 pcmap: pc port map (clock, '1', c_loadPC, reset, s_regAout, s_pcout); 
 outM <= s_ALUout;
