@@ -1,6 +1,6 @@
-/**
- * Curso: Elementos de Sistemas
- * Arquivo: Parser.java
+/*
+  Curso: Elementos de Sistemas
+  Arquivo: Parser.java
  */
 
 package assembler;
@@ -88,8 +88,9 @@ public class Parser {
      * @return o tipo da instrução.
      */
     public CommandType commandType(String command) {
-        /* TODO: implementar */
-    	return null;
+        if (command.startsWith("leaw")) return  CommandType.A_COMMAND;
+        if (command.endsWith(":")) return  CommandType.L_COMMAND;
+    	return CommandType.C_COMMAND;
     }
 
     /**
@@ -99,8 +100,10 @@ public class Parser {
      * @return somente o símbolo ou o valor número da instrução.
      */
     public String symbol(String command) {
-        /* TODO: implementar */
-    	return null;
+        String cmd = command.replace(","," ").replace("$","");
+    	cmd = cmd.trim().replaceAll(" +", " ");
+
+    	return  cmd.split(" ")[1];
     }
 
     /**
@@ -110,8 +113,7 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-        /* TODO: implementar */
-    	return null;
+    	return command.trim().replace(":"," ").split(" ")[0];
     }
 
     /**
@@ -121,8 +123,9 @@ public class Parser {
      * @return um vetor de string contento os tokens da instrução (as partes do comando).
      */
     public String[] instruction(String command) {
-        /* TODO: implementar */
-    	return null;
+        String cmd = command.replace(","," ");
+        cmd = cmd.trim().replaceAll(" +", " ");
+    	return cmd.split(" ");
     }
 
 
