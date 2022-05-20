@@ -60,6 +60,14 @@ public class SymbolTable {
         for (int i = 0; i <=15; i++){
             this.addEntry(String.format("R%d", i),i);
         }
+        this.addEntry("SP",0);
+        this.addEntry("LCL",1);
+        this.addEntry("ARG",2);
+        this.addEntry("THIS",3);
+        this.addEntry("THAT",4);
+        this.addEntry("SCREEN",16384);
+        this.addEntry("LED",21184);
+        this.addEntry("SW",21185);
 
     }
 }
