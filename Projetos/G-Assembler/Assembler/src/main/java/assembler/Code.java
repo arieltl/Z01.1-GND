@@ -5,6 +5,8 @@
 
 package assembler;
 
+
+
 /**
  * Traduz mnemônicos da linguagem assembly para códigos binários da arquitetura Z0.
  */
@@ -224,15 +226,10 @@ public class Code {
      * @return Valor em binário (String de 15 bits) representado com 0s e 1s.
      */
     public static String toBinary(String symbol) {
-        /* TODO: implementar */
         int i = Integer.parseInt(symbol);
-        String bin = Integer.toBinaryString(i);
-        String repeat = "";
-        if (bin.length() < 16){
-            String empty = "0";
-            repeat += empty.repeat(16-bin.length());
-        }
-        return repeat + bin;
+        String bin = String.format("%16s",Integer.toBinaryString(i)).replace(" ", "0");
+
+        return bin;
     }
 
 }
