@@ -22,6 +22,8 @@ public class Parser {
     public int lineNumber = 0;		     	// linha atual do arquivo (nao do codigo gerado)
     public String currentCommand = "";      // comando atual
     public String currentLine;			    // linha de codigo atual
+    public boolean hasJumped = false;
+    public boolean hasAddedNop = false;
 
 
     /** Enumerator para os tipos de comandos do Assembler. */
@@ -55,17 +57,32 @@ public class Parser {
     public Boolean advance() {
         /* ja esta pronto */
         while(true){
+
             try {
-                currentLine = fileReader.readLine();
+                if (!hasAddedNop && currentLine.e)  {
+                    currentLine = fileReader.readLine();
+                } else if (!currentCommand.equals("")){
+                    hasAddedNop = false;
+                }
+                if (currentCommand.equals(""))
+                    continue;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            lineNumber++;
             if (currentLine == null)
                 return false;  // caso não haja mais comandos
             currentCommand = currentLine.replaceAll(";.*$", "").trim();
-            if (currentCommand.equals(""))
-                continue;
+
+            if (hasJumped && !currentCommand.startsWith("nop")){
+                currentCommand = "nop";
+                System.out.println("Nop missing after jump, it was added automatically");
+                hasAddedNop = true;
+            }
+            hasJumped = false;
+            if (currentCommand.startsWith("j"))
+                hasJumped = true;
+
+
             return true;   // caso um comando seja encontrado
         }
     }
@@ -90,7 +107,7 @@ public class Parser {
     public CommandType commandType(String command) {
         if (command.startsWith("leaw")) return  CommandType.A_COMMAND;
         if (command.endsWith(":")) return  CommandType.L_COMMAND;
-    	return CommandType.C_COMMAND;
+        return CommandType.C_COMMAND;
     }
 
     /**
@@ -101,9 +118,9 @@ public class Parser {
      */
     public String symbol(String command) {
         String cmd = command.replace(","," ").replace("$","");
-    	cmd = cmd.trim().replaceAll(" +", " ");
+        cmd = cmd.trim().replaceAll(" +", " ");
 
-    	return  cmd.split(" ")[1];
+        return  cmd.split(" ")[1];
     }
 
     /**
@@ -113,7 +130,7 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-    	return command.trim().replace(":"," ").split(" ")[0];
+        return command.trim().replace(":"," ").split(" ")[0];
     }
 
     /**
@@ -125,7 +142,7 @@ public class Parser {
     public String[] instruction(String command) {
         String cmd = command.replace(","," ");
         cmd = cmd.trim().replaceAll(" +", " ");
-    	return cmd.split(" ");
+        return cmd.split(" ");
     }
 
 
