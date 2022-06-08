@@ -296,7 +296,7 @@ public class Code {
 
             } else if (segment.equals("local")) {
                 // Local em %D
-                commands.add("leaw $LCl, %A");
+                commands.add("leaw $LCL, %A");
                 commands.add("movw (%A), %D");
                 commands.add("leaw $" + index + ", %A");
                 commands.add("addw %A, %D, %A");
