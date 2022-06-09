@@ -108,47 +108,308 @@ public class Code {
             if (segment.equals("constant")) {
                 Error.error("Não faz sentido POP com constant");
             } else if (segment.equals("local")) {
+                // SP--
+                commands.add("leaw $SP,%A");
+                commands.add("subw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw %D, %A");
+
+
+                //Ultima da stack em RAM 13
+                commands.add("movw (%A),%D");
+                commands.add("leaw $13,%A");
+                commands.add("movw %D,(%A)");
+                
+
+                
+                // Ultima da stack em %D e endereco da local em %A
+                commands.add("leaw $LCL,%A");
+                commands.add("movw (%A), %D");
+                commands.add("leaw $" + index + ",%A");
+                commands.add("addw %D, %A, %D");
+                commands.add("leaw $14,%A");
+                commands.add("movw %D,(%A)");
+                commands.add("leaw $13,%A");
+                commands.add("movw (%A),%D");
+                commands.add("leaw $14,%A");
+                commands.add("movw (%A),%A");
+
+                //Ultima da stack na local
+                commands.add("movw %D,(%A)");
+                
 
             } else if (segment.equals("argument")) {
+                 // SP--
+                 commands.add("leaw $SP,%A");
+                 commands.add("subw (%A),$1,%D");
+                 commands.add("movw %D, (%A)");
+                 commands.add("movw %D, %A");
+ 
+ 
+                 //Ultima da stack em RAM 13
+                 commands.add("movw (%A),%D");
+                 commands.add("leaw $13,%A");
+                 commands.add("movw %D,(%A)");
+                 
+ 
+                 
+                 // Ultima da stack em %D e endereco em %A
+                 commands.add("leaw $ARG,%A");
+                 commands.add("movw (%A), %D");
+                 commands.add("leaw $" + index + ",%A");
+                 commands.add("addw %D, %A, %D");
+                 commands.add("leaw $14,%A");
+                 commands.add("movw %D,(%A)");
+                 commands.add("leaw $13,%A");
+                 commands.add("movw (%A),%D");
+                 commands.add("leaw $14,%A");
+                 commands.add("movw (%A),%A");
+ 
+                 //Ultima da stack no argumento
+                 commands.add("movw %D,(%A)");
 
             } else if (segment.equals("this")) {
+                 // SP--
+                 commands.add("leaw $SP,%A");
+                 commands.add("subw (%A),$1,%D");
+                 commands.add("movw %D, (%A)");
+                 commands.add("movw %D, %A");
+ 
+ 
+                 //Ultima da stack em RAM 13
+                 commands.add("movw (%A),%D");
+                 commands.add("leaw $13,%A");
+                 commands.add("movw %D,(%A)");
+                 
+ 
+                 
+                 // Ultima da stack em %D e endereco em %A
+                 commands.add("leaw $THIS,%A");
+                 commands.add("movw (%A), %D");
+                 commands.add("leaw $" + index + ",%A");
+                 commands.add("addw %D, %A, %D");
+                 commands.add("leaw $14,%A");
+                 commands.add("movw %D,(%A)");
+                 commands.add("leaw $13,%A");
+                 commands.add("movw (%A),%D");
+                 commands.add("leaw $14,%A");
+                 commands.add("movw (%A),%A");
+ 
+                 //Ultima da stack em this+offset
+                 commands.add("movw %D,(%A)");
 
             } else if (segment.equals("that")) {
+                 // SP--
+                 commands.add("leaw $SP,%A");
+                 commands.add("subw (%A),$1,%D");
+                 commands.add("movw %D, (%A)");
+                 commands.add("movw %D, %A");
+ 
+ 
+                 //Ultima da stack em RAM 13
+                 commands.add("movw (%A),%D");
+                 commands.add("leaw $13,%A");
+                 commands.add("movw %D,(%A)");
+                 
+ 
+                 
+                 // Ultima da stack em %D e endereco em %A
+                 commands.add("leaw $THAT,%A");
+                 commands.add("movw (%A), %D");
+                 commands.add("leaw $" + index + ",%A");
+                 commands.add("addw %D, %A, %D");
+                 commands.add("leaw $14,%A");
+                 commands.add("movw %D,(%A)");
+                 commands.add("leaw $13,%A");
+                 commands.add("movw (%A),%D");
+                 commands.add("leaw $14,%A");
+                 commands.add("movw (%A),%A");
+ 
+                 //Ultima da stack em that+offset
+                 commands.add("movw %D,(%A)");
 
             } else if (segment.equals("static")) {
+                 // SP--
+                 commands.add("leaw $SP,%A");
+                 commands.add("subw (%A),$1,%D");
+                 commands.add("movw %D, (%A)");
+                 commands.add("movw %D, %A");
+ 
+ 
+                 
+                 // Ultima da stack em %D e endereco em %A
+                 commands.add("movw (%A),%D");
+                 commands.add("leaw $" + (index + 16) + ",%A");
+                 
+                 //Ultima da stack na static
+                 commands.add("movw %D,(%A)");
 
             } else if (segment.equals("temp")) {
+                // SP--
+                commands.add("leaw $SP,%A");
+                commands.add("subw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw %D, %A");
+
+
+                
+                // Ultima da stack em %D e endereco em %A
+                commands.add("movw (%A),%D");
+                commands.add("leaw $" + (index + 5) + ",%A");
+                
+                //Ultima da stack na temp
+                commands.add("movw %D,(%A)");
 
             } else if (segment.equals("pointer")) {
-                if(index==0) {
+                // SP--
+                commands.add("leaw $SP,%A");
+                commands.add("subw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw %D, %A");
 
-                } else {
 
-                }
+                
+                // Ultima da stack em %D e endereco em %A
+                commands.add("movw (%A),%D");
+                commands.add("leaw $" + (index + 3) + ",%A");
+                
+                //Ultima da stack no pointer    
+                commands.add("movw %D,(%A)");
             }
         } else if (command == Parser.CommandType.C_PUSH) {
             commands.add(String.format("; %d - PUSH %s %d", lineCode++ ,segment, index));
 
             if (segment.equals("constant")) {
+                //Constante em %D
+                commands.add("leaw $"+ index + ", %A");
+                commands.add("movw %A, %D");
+                
+                // Adiciona %D na Stack
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %D,(%A)");
+
+                // SP++
+                commands.add("leaw $SP,%A");
+                commands.add("addw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("local")) {
+                // Local em %D
+                commands.add("leaw $LCL, %A");
+                commands.add("movw (%A), %D");
+                commands.add("leaw $" + index + ", %A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw (%A),%D");
+
+                // Adiciona %D na Stack
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %D,(%A)");
+
+                // SP++
+                commands.add("leaw $SP,%A");
+                commands.add("addw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
+                
 
             } else if (segment.equals("argument")) {
+                // Argumento em %D
+                commands.add("leaw $ARG, %A");
+                commands.add("movw (%A), %D");
+                commands.add("leaw $" + index + ", %A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw (%A),%D");
+
+                // Adiciona %D na Stack
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %D,(%A)");
+
+                // SP++
+                commands.add("leaw $SP,%A");
+                commands.add("addw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
+                          
 
             } else if (segment.equals("this")) {
+                // This + offset em %D
+                commands.add("leaw $THIS, %A");
+                commands.add("movw (%A), %D");
+                commands.add("leaw $" + index + ", %A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw (%A),%D");
 
+                // Adiciona %D na Stack
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %D,(%A)");
+
+                // SP++
+                commands.add("leaw $SP,%A");
+                commands.add("addw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
             } else if (segment.equals("that")) {
+                // That + offset em %D
+                commands.add("leaw $THAT, %A");
+                commands.add("movw (%A), %D");
+                commands.add("leaw $" + index + ", %A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw (%A),%D");
+
+                // Adiciona %D na Stack
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %D,(%A)");
+
+                // SP++
+                commands.add("leaw $SP,%A");
+                commands.add("addw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("static")) {
+                //static em %D
+                commands.add("leaw $" + (index+16) + ", %A");
+                commands.add("movw (%A),%D");
 
+                // Adiciona %D na Stack
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %D,(%A)");
+
+                // SP++
+                commands.add("leaw $SP,%A");
+                commands.add("addw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
             } else if (segment.equals("temp")) {
+                //temp em %D
+                commands.add("leaw $" + (index+5) + ", %A");
+                commands.add("movw (%A),%D");
+
+                // Adiciona %D na Stack
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %D,(%A)");
+
+                // SP++
+                commands.add("leaw $SP,%A");
+                commands.add("addw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("pointer")) {
-                if(index==0) {
+                //pointer em %D
+                commands.add("leaw $" + (index+3) + ", %A");
+                commands.add("movw (%A),%D");
 
-                } else {
+                // Adiciona %D na Stack
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %D,(%A)");
 
-                }
+                // SP++
+                commands.add("leaw $SP,%A");
+                commands.add("addw (%A),$1,%D");
+                commands.add("movw %D, (%A)");
             }
         }
 
