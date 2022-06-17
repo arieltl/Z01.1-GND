@@ -52,33 +52,159 @@ public class Code {
             commands.add("decw %A");
             commands.add("addw (%A), %D, %D");
             commands.add("movw %D, (%A)");
-            //commands.add("addw $1, %A, %D");
-            //commands.add("leaw $0, %A");
-            //commands.add("movw %D, (%A)");
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %D");
+            commands.add("movw %D, (%A)");
 
         } else if (command.equals("sub")) {
             commands.add(String.format("; %d - SUB", lineCode++));
-            // IMPLEMENTAR AQUI O LAB
-            // LEMBRAR DE USAR A FUNÇÃO commands.add()!
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("subw (%A), %D, %D");
+            commands.add("movw %D, (%A)");
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %D");
+            commands.add("movw %D, (%A)");
+
         } else if (command.equals("neg")) {
             commands.add(String.format("; %d - NEG", lineCode++));
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("negw %D");
+            commands.add("movw %D, (%A)");
 
         } else if (command.equals("eq")) {
             commands.add(String.format("; %d - EQ", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("subw (%A), $1, %D");
+            commands.add("movw %D, (%A)");
+            commands.add("movw %D, %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("subw (%A), %D, %D");
+            commands.add("movw $0, (%A)");
+            commands.add("leaw $GTISFALSE1, %A");
+            commands.add("jne %D");
+            commands.add("nop");
+            commands.add("leaw $SP, %A");
 
-        } else if (command.equals("gt")) {
-            commands.add(String.format("; %d - GT", lineCode++));
+            commands.add("subw (%A),$1, %A");
+            commands.add("movw (%A), %D");
+            commands.add("notw %D");
+            commands.add("movw %D, (%A)");
+        
+            commands.add("GTISFALSE1:");
 
         } else if (command.equals("lt")) {
             commands.add(String.format("; %d - LT", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("subw (%A), $1, %D");
+            commands.add("movw %D, (%A)");
+            commands.add("movw %D, %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("subw (%A), %D, %D");
+            commands.add("movw $0, (%A)");
+            commands.add("leaw $EQISFALSE, %A");
+            commands.add("jge %D");
+            commands.add("nop");
+            commands.add("leaw $SP, %A");
+
+            commands.add("subw (%A),$1, %A");
+            commands.add("movw (%A), %D");
+            commands.add("notw %D");
+            commands.add("movw %D, (%A)");
+        
+            commands.add("EQISFALSE:");
+            
+        } else if (command.equals("gt")) {
+            commands.add(String.format("; %d - GT", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("subw (%A), $1, %D");
+            commands.add("movw %D, (%A)");
+            commands.add("movw %D, %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("subw (%A), %D, %D");
+            commands.add("movw $0, (%A)");
+            commands.add("leaw $GTISFALSE2, %A");
+            commands.add("jle %D");
+            commands.add("nop");
+            commands.add("leaw $SP, %A");
+
+            commands.add("subw (%A),$1, %A");
+            commands.add("movw (%A), %D");
+            commands.add("notw %D");
+            commands.add("movw %D, (%A)");
+        
+            commands.add("GTISFALSE2:");
+
+        } else if (command.equals("lt")) {
+            commands.add(String.format("; %d - LT", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("subw (%A), $1, %D");
+            commands.add("movw %D, (%A)");
+            commands.add("movw %D, %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("subw (%A), %D, %D");
+            commands.add("movw $0, (%A)");
+            commands.add("leaw $LTISFALSE, %A");
+            commands.add("jge %D");
+            commands.add("nop");
+            commands.add("leaw $SP, %A");
+
+            commands.add("subw (%A),$1, %A");
+            commands.add("movw (%A), %D");
+            commands.add("notw %D");
+            commands.add("movw %D, (%A)");
+        
+            commands.add("LTISFALSE:");
 
         } else if (command.equals("and")) {
             commands.add(String.format("; %d - AND", lineCode++));
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("andw (%A), %D, %D");
+            commands.add("movw %D, (%A)");
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %D");
+            commands.add("movw %D, (%A)");
+
 
         } else if (command.equals("or")) {
             commands.add(String.format("; %d - OR", lineCode++));
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("orw %D, (%A), %D");
+            commands.add("movw %D, (%A)");
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %D");
+            commands.add("movw %D, (%A)");
 
         } else if (command.equals("not")) {
+            commands.add(String.format("; %d - NOT", lineCode++));
+            commands.add("leaw $0, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("notw %D");
+            commands.add("movw %D, (%A)");
 
         }
 
@@ -419,6 +545,7 @@ public class Code {
 
     }
 
+
     /**
      * Grava no arquivo de saida as instruções em Assembly para inicializar o processo da VM (bootstrap).
      * Também prepara a chamada para a função Sys.init
@@ -468,10 +595,14 @@ public class Code {
      * @param  label define jump a ser realizado para um label (marcador).
      */
     public void writeGoto(String label) {
-
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Goto Incondicional", lineCode++));
-
+        commands.add("leaw $"+label+", %A");
+        commands.add("jmp");
+        commands.add("nop");
+        String[] stringArray = new String[commands.size()];
+        commands.toArray(stringArray);
+        write(stringArray);
     }
 
     /**
@@ -480,10 +611,22 @@ public class Code {
      * @param  label define jump a ser realizado para um label (marcador).
      */
     public void writeIf(String label) {
-
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Goto Condicional", lineCode++));
-
+        commands.add("leaw $0, %A");
+        commands.add("movw (%A), %A");
+        commands.add("decw %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $END, %A");
+        commands.add("je %D");
+        commands.add("nop");
+        commands.add("leaw $" + label + ", %A");
+        commands.add("jmp");
+        commands.add("nop");
+        commands.add("END: ");
+        String[] stringArray = new String[commands.size()];
+        commands.toArray(stringArray);
+        write(stringArray);
      }
 
     /**
@@ -495,6 +638,7 @@ public class Code {
 
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - chamada de funcao %s", lineCode++, functionName));
+
 
     }
 
